@@ -5,8 +5,9 @@ function SideBar() {
   const [isOpen, setIsOpen] = useState(true);
   return isOpen ? (
     <navbar class=" basis-1/6 h-full  bg-sky-500 ">
-      <Avatar />
       <button onClick={() => setIsOpen(false)}>Fermer</button>
+      <Avatar />
+      
     </navbar>
   ) : (
     <div>
