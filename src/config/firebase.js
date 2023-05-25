@@ -1,5 +1,5 @@
 import { GoogleAuthProvider } from "firebase/auth";
-
+import { getDatabase, ref, set , child, get } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
@@ -19,3 +19,16 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
  export const auth = getAuth(app);
+
+
+
+const dbRef = ref(getDatabase());
+ get(child(dbRef, 'Rooms/Room01')).then((snapshot) => {
+   if (snapshot.exists()) {
+     console.log(snapshot.val());
+   } else {
+     console.log("No data available");
+   }
+ }).catch((error) => {
+   console.error(error);
+ });
