@@ -8,6 +8,7 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5fKvtsUAPeMvYa4qCa5jx6uRRrDAdaI",
   authDomain: "pfe-ys.firebaseapp.com",
+  databaseURL: "https://pfe-ys-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "pfe-ys",
   storageBucket: "pfe-ys.appspot.com",
   messagingSenderId: "846688245132",
