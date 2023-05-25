@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div class="w-screen h-screen flex flex-row m-t ">
+    <div className="w-screen h-screen flex flex-row m-t ">
       <QueryClientProvider client={queryClient}>
         <SideBar />
         <DashboardBody />
