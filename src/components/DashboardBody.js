@@ -2,25 +2,31 @@ import { Card, Text, Metric, AreaChart, Title } from "@tremor/react";
 import { dataFormatter, chartdata } from "./../data/Areachart";
 import { getDatabase, ref, child, get } from "firebase/database";
 import { app } from "../config/firebase";
+import Typography from "@mui/material/Typography";
 
 const dbRef = ref(getDatabase());
-get(child(dbRef, 'TheRooms/01/')).then((snapshot) => {
-  if (snapshot.exists()) {
-    console.log(snapshot.val());
-  } else {
-    console.log("No data available");
-  }
-}).catch((error) => {
-  console.error(error);
-});
-
-
+get(child(dbRef, "TheRooms/01/"))
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 function DashboardBody() {
   return (
     <div className="h-full basis-5/6 bg-blue-100 text-center">
       <div className="overflow-y-auto h-full basis-5/6">
         <div className="flex flex-col">
+          <div className="mt-10 ml-20">
+            <Typography variant="h4" className="text-left mt-10  ">
+              Room server number : 1
+            </Typography>
+          </div>
           <div className="grid grid-rows-1 grid-cols-8 gap-2 mt-14 overflow-y-auto">
             <Card className="col-start-3 col-span-2 h-40">
               <Text>Temperature</Text>
@@ -49,4 +55,5 @@ function DashboardBody() {
       </div>
     </div>
   );
-}export default DashboardBody;
+}
+export default DashboardBody;
