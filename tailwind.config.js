@@ -8,7 +8,15 @@ content: [
 "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
 ],
 theme: {
-extend: {},
+extend: {
+    colors:{
+        primary: "#90caf9",
+      
+        
+        secondary: "#42a5f5", 
+    }
+
+},
 },
 plugins: [],
 }

@@ -1,15 +1,17 @@
 import DashboardBody from "./DashboardBody";
 import PersistentDrawerLeft from "./PersistentDrawerLeft";
-import SideBar from "./SideBar";
-import { QueryClient, QueryClientProvider } from "react-query";
+import SignIn from "./SignIn";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+// <PersistentDrawerLeft />
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div> <PersistentDrawerLeft/>
+    <div>
+     <SignIn/>
+     
     </div>
-    
   );
 }
 
