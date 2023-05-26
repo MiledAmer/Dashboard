@@ -1,5 +1,10 @@
 import * as React from "react";
-import { styled, useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  styled,
+  useTheme,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,10 +18,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+
 import DashboardBody from "./DashboardBody";
 import RoomItem from "./RoomItem";
-import  Avatar  from "./Avatar";
-
+import Avatar from "./Avatar";
+import ExitButton from "./ExitButton";
 
 const drawerWidth = 240;
 
@@ -39,22 +45,22 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
-const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
     }),
-    ...(open && {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: `${drawerWidth}px`,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  })
-);
+  }),
+}));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -124,22 +130,26 @@ export default function PersistentDrawerLeft() {
         >
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </DrawerHeader>
-          <Divider/>
-          <Avatar/>
-          
-          <List>
-            
-              <RoomItem text='room1'/>
-              <RoomItem text='room2'/>
-              <RoomItem text='room3'/>
+          <Divider />
+          <Avatar />
 
-            
+          <List>
+            <RoomItem text="room1" />
+            <RoomItem text="room2" />
+            <RoomItem text="room3" />
           </List>
           <Divider />
-        
+
+          
+            <ExitButton/>
+          
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
