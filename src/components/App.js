@@ -1,18 +1,15 @@
 import DashboardBody from "./DashboardBody";
+import PersistentDrawerLeft from "./PersistentDrawerLeft";
 import SideBar from "./SideBar";
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="w-screen h-screen flex flex-row m-t ">
-      <QueryClientProvider client={queryClient}>
-        <SideBar />
-        <DashboardBody />
-        
-      </QueryClientProvider>
+    <div> <PersistentDrawerLeft/>
     </div>
+    
   );
 }
 
