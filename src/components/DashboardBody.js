@@ -1,21 +1,8 @@
 import { Card, Text, Metric, AreaChart, Title } from "@tremor/react";
 import { dataFormatter, chartdata } from "./../data/Areachart";
-import { getDatabase, ref, child, get } from "firebase/database";
-import { app } from "../config/firebase";
 import Typography from "@mui/material/Typography";
 
-const dbRef = ref(getDatabase());
-get(child(dbRef, "TheRooms/01/"))
-  .then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else {
-      console.log("No data available");
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+
 
 function DashboardBody() {
   return (

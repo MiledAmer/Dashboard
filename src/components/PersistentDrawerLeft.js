@@ -18,11 +18,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-
 import DashboardBody from "./DashboardBody";
 import RoomItem from "./RoomItem";
 import Avatar from "./Avatar";
 import ExitButton from "./ExitButton";
+import RoomList from "./RoomList";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 const drawerWidth = 240;
 
@@ -71,7 +72,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({ client }) {
   const theme = createTheme({
     palette: {
       primary: {
@@ -141,15 +142,14 @@ export default function PersistentDrawerLeft() {
           <Avatar />
 
           <List>
+           
             <RoomItem text="room1" />
             <RoomItem text="room2" />
             <RoomItem text="room3" />
           </List>
           <Divider />
 
-          
-            <ExitButton/>
-          
+          <ExitButton />
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
