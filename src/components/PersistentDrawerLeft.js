@@ -23,7 +23,7 @@ import RoomItem from "./RoomItem";
 import Avatar from "./Avatar";
 import ExitButton from "./ExitButton";
 import RoomList from "./RoomList";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const drawerWidth = 240;
 
@@ -72,7 +72,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft({ client }) {
+export default function PersistentDrawerLeft({ children }) {
   const theme = createTheme({
     palette: {
       primary: {
@@ -84,6 +84,8 @@ export default function PersistentDrawerLeft({ client }) {
     },
   });
 
+  const queryClient = useQueryClient()
+
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -93,7 +95,8 @@ export default function PersistentDrawerLeft({ client }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  
+  
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
@@ -142,7 +145,7 @@ export default function PersistentDrawerLeft({ client }) {
           <Avatar />
 
           <List>
-           
+            
             <RoomItem text="room1" />
             <RoomItem text="room2" />
             <RoomItem text="room3" />
@@ -153,7 +156,7 @@ export default function PersistentDrawerLeft({ client }) {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <DashboardBody />
+          {children}
         </Main>
       </Box>
     </ThemeProvider>

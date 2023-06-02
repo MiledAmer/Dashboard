@@ -1,6 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { ref, getDatabase, get, child } from "firebase/database";
 
 
  const firebaseConfig = {
@@ -17,5 +18,18 @@ export default firebaseConfig;
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-
+export function getData() {
+  const dbRef = ref(getDatabase());
+  return (get(child(dbRef, "Rooms/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        console.log("No data available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    }));
+}
 
