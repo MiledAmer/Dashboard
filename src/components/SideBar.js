@@ -72,7 +72,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft({ children }) {
+export default function SideBar({ children }) {
   const theme = createTheme({
     palette: {
       primary: {

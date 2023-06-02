@@ -1,10 +1,10 @@
 import DashboardBody from "../components/DashboardBody";
-import PersistentDrawerLeft from "../components/PersistentDrawerLeft";
+import SideBar from "../components/SideBar";
 
 
 function Dashboard (){
     return(
-        <PersistentDrawerLeft children={<DashboardBody/>}/>
+        <SideBar children={<DashboardBody/>}/>
     );
 }
 
