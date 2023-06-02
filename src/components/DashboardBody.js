@@ -6,7 +6,7 @@ import { CircularProgress, Typography } from "@mui/material";
 
 function DashboardBody() {
   const { isLoading, error, data } = useQuery({
-    queryKey: ["repoData"], 
+    queryKey: ["DisplayData"], 
     queryFn: () => fetchData("/Rooms/Room01/")});
 
   if (isLoading) return <CircularProgress />;

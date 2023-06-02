@@ -8,7 +8,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 function RoomItem({text}){
     
     return(
-        <div>
+        <li>
              <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -17,7 +17,7 @@ function RoomItem({text}){
                   <ListItemText primary={text} />
                 </ListItemButton>
               </ListItem>
-        </div>
+        </li>
     )
 }
 export default RoomItem;
