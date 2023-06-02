@@ -1,34 +1,24 @@
-import { getDatabase, ref, child, get } from "firebase/database";
-import { useQuery, useQueryClient } from "react-query";
 import RoomItem from "./RoomItem";
+import { useQuery } from "react-query";
+import { fetchData } from "../config/firebase";
+import { CircularProgress } from "@mui/material";
 
-function getData() {
-  const dbRef = ref(getDatabase());
-  return (get(child(dbRef, "Rooms/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        return snapshot.val();
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    }));
-}
 
-getData();
+
 
 function RoomList() {
-  const { data, status } = useQuery("data", getData);
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["NumberOfRooms"], 
+    queryFn: () => fetchData("/Rooms/"),
+  });
 
-  if (status === "loading") {
-    return <p>loading...</p>;
-  }
-  if (status === "error") {
-    return <p>Error!</p>;
-  }
-  return data.map(() => <RoomItem text="roomX" />);
+  if (isLoading) return <CircularProgress />;
+
+  if (error) return "An error has occurred: " + error.message;
+
+  return (
+    data.map(({index}) => <RoomItem text={`Room/${index}`}/>)
+  );
 }
 
 export default RoomList;

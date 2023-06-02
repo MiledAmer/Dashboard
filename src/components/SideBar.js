@@ -84,7 +84,7 @@ export default function SideBar({ children }) {
     },
   });
 
-  const queryClient = useQueryClient()
+  
 
   const [open, setOpen] = React.useState(false);
 
@@ -145,7 +145,7 @@ export default function SideBar({ children }) {
           <Avatar />
 
           <List>
-            
+            <RoomList/>
             <RoomItem text="room1" />
             <RoomItem text="room2" />
             <RoomItem text="room3" />
