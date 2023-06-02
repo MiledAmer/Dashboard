@@ -18,9 +18,10 @@ export default firebaseConfig;
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export function getData() {
+
+export function fetchData(path) {
   const dbRef = ref(getDatabase());
-  return (get(child(dbRef, "Rooms/"))
+  return (get(child(dbRef, path))
     .then((snapshot) => {
       if (snapshot.exists()) {
         return snapshot.val();

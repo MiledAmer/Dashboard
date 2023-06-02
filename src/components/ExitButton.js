@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import SignIn from "./SignIn";
+import SignIn from "../pages/SignIn";
 
 export default function ExitButton() {
   const navigate = useNavigate();

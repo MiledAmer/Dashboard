@@ -1,4 +1,4 @@
-import Avatar from "./Avatar";
+import Avatar from "../components/Avatar";
 import React, { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -11,7 +11,7 @@ firebase.initializeApp(firebaseConfig);
 
 function SignIn() {
   const Navigate = useNavigate();
- const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
