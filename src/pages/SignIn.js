@@ -38,14 +38,7 @@ function SignIn() {
     Navigate('/signup');
   };
 
-  const user = firebase.auth().currentUser;
-  let uid = '';
-  if (user) {
-    uid = user.uid;
-    console.log(uid);
-    // Use the uid variable as needed
-  }
-
+ 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -119,5 +112,13 @@ function SignIn() {
     </div>
   );
 }
+const user = firebase.auth().currentUser;
+let uid = '';
+if (user) {
+  uid = user.uid;
+  console.log(uid);
+  // Use the uid variable as needed
+}
 
 export default SignIn;
+export { uid };
