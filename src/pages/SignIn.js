@@ -6,7 +6,6 @@ import firebaseConfig from "../config/firebase";
 import { useNavigate } from 'react-router-dom';
 
 
-
 firebase.initializeApp(firebaseConfig);
 
 function SignIn() {
@@ -22,29 +21,43 @@ function SignIn() {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((userCred) => {
+      .then((userCredential) => {
         // Sign in successful
-        console.log('User signed in:', userCred.user);
+        console.log('User signed in:', userCredential.user);
         // Redirect to the dashboard page
         Navigate('/dashboard');
       })
       .catch((error) => {
         // Sign in failed
-         setErrorMessage("Wrong Password or email!");
+        setErrorMessage("Wrong Password or email!");
       });
   };
+
+  const handleSignUp = () => {
+    // Redirect to the sign-up page
+    Navigate('/signup');
+  };
+
+  const user = firebase.auth().currentUser;
+  let uid = '';
+  if (user) {
+    uid = user.uid;
+    console.log(uid);
+    // Use the uid variable as needed
+  }
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <Avatar/>
+        {/* Your Avatar component */}
+        <Avatar />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSignIn}>
+        <form onSubmit={handleSignIn} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Email address
@@ -93,6 +106,15 @@ function SignIn() {
           </div>
         </form>
         {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+        <div className="mt-6 text-center">
+          <button
+            type="button"
+            onClick={handleSignUp}
+            className="text-sm font-medium text-gray-900 underline cursor-pointer"
+          >
+            Sign up for an account
+          </button>
+        </div>
       </div>
     </div>
   );
