@@ -2,6 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "./../config/firebase";
 import RoomItem from "./RoomItem";
 
+ function ElementName (data){
+    //console.log(Object.values(data))
+    Object.values(data).map((roomdata) => console.log(roomdata.RoomName));
+    
+}
 
 
 function RoomList() {
@@ -17,7 +22,7 @@ function RoomList() {
     return (
       <ul>
             {
-                Object.keys(data).map(({index}) => (<RoomItem text={`ROOM0${index}`}/>))
+                Object.values(data).map((roomdata) => <RoomItem text={roomdata.RoomName}/> )
             }
       </ul>
     )
