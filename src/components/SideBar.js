@@ -25,6 +25,7 @@ import ExitButton from "./ExitButton";
 import RoomList from "./RoomList";
 import SignUpButton from "./SignUpButton";
 import { useQueryClient } from "@tanstack/react-query";
+import { uid } from "../Pages/SignIn";
 
 const drawerWidth = 240;
 
@@ -147,6 +148,7 @@ export default function SideBar({ children }) {
           </List>
           <Divider />
           <SignUpButton />
+          <Divider/>
           <ExitButton />
         </Drawer>
         <Main open={open}>

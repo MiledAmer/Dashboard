@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "./../config/firebase";
 import RoomItem from "./RoomItem";
 
-
-function RoomList() {
+ 
+function AdminSpecifics() {
     const { isLoading, error, data } = useQuery({
-                queryKey:['RoomList'], 
-                queryFn:() =>fetchData("/Rooms/")
+                queryKey:['AdminSpecifics'], 
+                queryFn:() =>fetchData("/Users/")
             })
     
     if (isLoading) return 'Loading...'
