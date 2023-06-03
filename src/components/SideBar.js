@@ -23,6 +23,7 @@ import RoomItem from "./RoomItem";
 import Avatar from "./Avatar";
 import ExitButton from "./ExitButton";
 import RoomList from "./RoomList";
+import SignUpButton from "./SignUpButton";
 import { useQueryClient } from "@tanstack/react-query";
 
 const drawerWidth = 240;
@@ -84,8 +85,6 @@ export default function SideBar({ children }) {
     },
   });
 
-  
-
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -95,8 +94,7 @@ export default function SideBar({ children }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  
-  
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
@@ -145,10 +143,10 @@ export default function SideBar({ children }) {
           <Avatar />
 
           <List>
-            <RoomList/> 
+            <RoomList />
           </List>
           <Divider />
-
+          <SignUpButton />
           <ExitButton />
         </Drawer>
         <Main open={open}>
