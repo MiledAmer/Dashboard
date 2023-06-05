@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,43 +12,52 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { getDatabase, ref, push, set } from "firebase/database";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "../config/firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+initializeApp(firebaseConfig);
+const database = getDatabase();
+function CreateAccount(email, password) {
+  const auth = getAuth();
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
 }
+function SignUp() {
+  const Navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
-
-export default function SignUp() {
-const Navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+
+    CreateAccount(email, password);
+    // Send user data to Firebase
+    const db = getDatabase();
+    set(ref(db, "Users/"), {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      passwrd: password,
     });
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={createTheme()}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -65,6 +74,11 @@ const Navigate = useNavigate();
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {isSignUpSuccess ? (
+            <Typography variant="subtitle1" color="success" align="center">
+              Signed up successfully!
+            </Typography>
+          ) : null}
           <Box
             component="form"
             noValidate
@@ -81,6 +95,8 @@ const Navigate = useNavigate();
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -91,6 +107,8 @@ const Navigate = useNavigate();
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -101,6 +119,8 @@ const Navigate = useNavigate();
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -112,6 +132,8 @@ const Navigate = useNavigate();
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -124,19 +146,18 @@ const Navigate = useNavigate();
               Sign Up
             </Button>
             <Button
-              onClick={() => Navigate("/dashboard")} // Navigate to the dashboard
+              onClick={() => Navigate("/dashboard")}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Return
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item></Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
   );
 }
+
+export default SignUp;
