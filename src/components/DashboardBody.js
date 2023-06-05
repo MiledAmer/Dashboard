@@ -4,6 +4,7 @@ import { fetchData } from "./../config/firebase";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress, Typography } from "@mui/material";
 
+
 function DashboardBody() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["DisplayData"], 
@@ -46,6 +47,7 @@ function DashboardBody() {
               </div>
             </Card>
           </div>
+
         </div>
       </div>
     </div>
