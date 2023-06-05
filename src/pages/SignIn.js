@@ -1,31 +1,50 @@
 import Avatar from "../components/Avatar";
-import React, { useState } from 'react';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import React, { useState } from "react";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 import firebaseConfig from "../config/firebase";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { CircularProgress } from "@mui/material";
 
 firebase.initializeApp(firebaseConfig);
 
+
+const SendUIDAndNavigate = (Navigate) => {
+  const sendUID = useQuery({
+    queryKey: ["uid"],
+    queryFn: () => firebase.auth().currentUser,
+  });
+  if (sendUID.isLoading) return <CircularProgress />
+  if (sendUID.isError) return 
+  <pre>{JSON.stringify(sendUID.error)}</pre>
+  
+  let uid =sendUID.data;
+
+    Navigate("/dashboard", {uid})
+
+}
+
+
 function SignIn() {
   const Navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
+  
   const handleSignIn = (e) => {
     e.preventDefault();
-    setErrorMessage('');
+    setErrorMessage("");
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Sign in successful
-        console.log('User signed in:', userCredential.user);
+        console.log("User signed in:", userCredential.user);
         // Redirect to the dashboard page
-        Navigate('/dashboard');
+        Navigate("/dashboard", {state:{uid: firebase.auth().currentUser.uid}});
       })
       .catch((error) => {
         // Sign in failed
@@ -35,10 +54,9 @@ function SignIn() {
 
   const handleSignUp = () => {
     // Redirect to the sign-up page
-    Navigate('/signup');
+    Navigate("/signup");
   };
 
- 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -52,7 +70,10 @@ function SignIn() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSignIn} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
               Email address
             </label>
             <div className="mt-2">
@@ -71,7 +92,10 @@ function SignIn() {
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Password
               </label>
             </div>
@@ -99,26 +123,9 @@ function SignIn() {
           </div>
         </form>
         {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
-        <div className="mt-6 text-center">
-          <button
-            type="button"
-            onClick={handleSignUp}
-            className="text-sm font-medium text-gray-900 underline cursor-pointer"
-          >
-            Sign up for an account
-          </button>
-        </div>
       </div>
     </div>
   );
 }
-const user = firebase.auth().currentUser;
-let uid = '';
-if (user) {
-  uid = user.uid;
-  console.log(uid);
-  // Use the uid variable as needed
-}
 
 export default SignIn;
-export { uid };

@@ -26,6 +26,7 @@ import RoomList from "./RoomList";
 import SignUpButton from "./SignUpButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { uid } from "../Pages/SignIn";
+import AdminSpecifics from "./AdminSpecifics";
 
 const drawerWidth = 240;
 
@@ -147,7 +148,7 @@ export default function SideBar({ children }) {
             <RoomList />
           </List>
           <Divider />
-          <SignUpButton />
+          <AdminSpecifics/>
           <Divider/>
           <ExitButton />
         </Drawer>

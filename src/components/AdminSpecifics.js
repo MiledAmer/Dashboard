@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "./../config/firebase";
-import RoomItem from "./RoomItem";
-
+import SignUpButton from "./SignUpButton";
  
 function AdminSpecifics() {
+    const uid ="null;";
     const { isLoading, error, data } = useQuery({
                 queryKey:['AdminSpecifics'], 
                 queryFn:() =>fetchData("/Users/")
@@ -16,10 +16,10 @@ function AdminSpecifics() {
     return (
       <ul>
             {
-                Object.values(data).map((roomdata) => <RoomItem text={roomdata.RoomName}/> )
+                data[uid] === "IsAdmin"? <SignUpButton/>:null
             }
       </ul>
     )
 }
 
-export default RoomList;
+export default AdminSpecifics;
