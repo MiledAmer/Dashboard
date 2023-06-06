@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -16,24 +17,11 @@ import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, push, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "../config/firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { CreateAccount } from "../config/firebase";
+
 initializeApp(firebaseConfig);
 const database = getDatabase();
-function CreateAccount(email, password) {
-  const auth = getAuth();
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
-}
 function SignUp() {
   const Navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
@@ -48,12 +36,12 @@ function SignUp() {
     CreateAccount(email, password);
     // Send user data to Firebase
     const db = getDatabase();
-    set(ref(db, "Users/"), {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      passwrd: password,
-    });
+    // set(ref(db, "Users/"), {
+    //   firstName: firstName,
+    //   lastName: lastName,
+    //   email: email,
+    //   passwrd: password,
+    // });
   };
 
   return (

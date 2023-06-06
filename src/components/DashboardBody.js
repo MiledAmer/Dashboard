@@ -24,7 +24,7 @@ function DashboardBody() {
         <div className="flex flex-col">
           <div className="mt-10 ml-20">
             <Typography variant="h4" className="text-left mt-10  ">
-              Room server number : 1  {data.Mov?"mouvement detecter":""}
+              Room server number : {data.RoomNumber} {data.Mov?"mouvement detecter":""}
             </Typography>
           </div>
           <div className="grid grid-rows-1 grid-cols-8 gap-2 mt-14 overflow-y-auto">

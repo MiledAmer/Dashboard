@@ -16,7 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
+import DisplayUserButton from "./DisplayUserButton";
 
 import Avatar from "./Avatar";
 import ExitButton from "./ExitButton";
@@ -160,6 +160,7 @@ export default function SideBar({ children }) {
             <AdminSpecifics />
             <Divider />
             <ExitButton />
+            <DisplayUserButton />
           </Drawer>
           <Main open={open}>
             <DrawerHeader />

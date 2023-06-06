@@ -1,8 +1,7 @@
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { ref, getDatabase, get, child } from "firebase/database";
-
+import { ref, getDatabase, get, child, push, update, set } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
  const firebaseConfig = {
   apiKey: "AIzaSyCZ5fKvtsUAPeMvYa4qCa5jx6uRRrDAdaI",
@@ -34,3 +33,48 @@ export function fetchData(path) {
     }));
 }
 
+
+export function CreateAccount(email, password) {
+  const auth = getAuth();
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+}
+
+// export function  writeNewPost(FirstName,LastName,Email,Role) {
+//   const db = getDatabase();
+//   const postData = {
+//     FirstName:FirstName,
+//     LastName:LastName,
+//     Email:Email,
+//     Role:Role,
+//    };
+//     const newPostKey = push(child(ref(db), 'posts')).key;
+//  // Write the new post's data simultaneously in the posts list and the user's post list.
+//  const updates = {};
+//  updates['/posts/' + newPostKey] = postData;
+//  updates['/user-posts/' + FirstNme + '/' + Role] = postData;
+
+//  return update(ref(db), updates);
+// }
+
+
+export function writeUserData(uid,FirstName,LastName,Email,Role) {
+  const db = getDatabase();
+  set(ref(db, 'Users/' + uid), {
+    FirstName:FirstName,
+    LastName:LastName,
+    Email:Email,
+    Role:Role,
+  });
+}
+    

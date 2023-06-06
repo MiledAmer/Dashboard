@@ -1,42 +1,73 @@
-import React, { useState } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 
-const UserList = () => {
-  const [newUser, setNewUser] = useState('');
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
-  const handleAdd = () => {
-    // Get a reference to the Firebase Realtime Database
-    const database = firebase.database();
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
-    // Generate a unique ID for the new user
-    const userId = database.ref().child('users').push().key;
+function createData(FullName, Email, Role, Actions) {
+  return { FullName, Email,Role, Actions };
+}
 
-    // Create the user object with the new ID and name
-    const newUserObj = { id: userId, name: newUser };
+const rows = [
+createData("Souhir beji ", 159, 6.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  createData("yassmine Hassouna ", 237, 9.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  createData("med ameur miled", 262, 16.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  createData("feriel ben mammia", 305, 3.7, [<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  createData("rima guedria", 356, 16.0, [<Button variant="contained">update</Button>,<Button variant="contained"color="error">Delete</Button> ]),
+];
 
-    // Add the user to the 'users' collection in the database
-    database.ref(`users/${userId}`).set(newUserObj)
-      .then(() => {
-        console.log('User added successfully!');
-        setNewUser('');
-      })
-      .catch(error => {
-        console.error('Error adding user:', error);
-      });
-  };
-
+export default function CustomizedTables() {
   return (
-    <div>
-      <h1>User List</h1>
-      <input
-        type="text"
-        value={newUser}
-        onChange={(e) => setNewUser(e.target.value)}
-      />
-      <button onClick={handleAdd}>Add User</button>
-    </div>
-  );
-};
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell> Full Name</StyledTableCell>
+            <StyledTableCell align="right">Email</StyledTableCell>
+            <StyledTableCell align="right">Role</StyledTableCell>
+            <StyledTableCell align="center">Actions</StyledTableCell>
 
-export default UserList;
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <StyledTableRow key={row.FullName}>
+              <StyledTableCell component="th" scope="row">
+                {row.FullName}
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.Email}</StyledTableCell>
+              <StyledTableCell align="right">{row.Role}</StyledTableCell>
+
+              <StyledTableCell align="center">{row.Actions}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}

@@ -16,7 +16,7 @@ function RoomList() {
     return (
       <ul>
             {
-                Object.values(data).map((roomdata) => <RoomItem text={roomdata.RoomName}/> )
+                Object.values(data).map((roomdata) => <RoomItem key={roomdata.RoomName} text={roomdata.RoomName}/> )
             }
       </ul>
     )

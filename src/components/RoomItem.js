@@ -13,7 +13,7 @@ function RoomItem({ text }) {
     updateLink('Rooms/'+text)
   }
   return (
-    <li>
+    <div>
       <ListItem key={text} disablePadding>
         <ListItemButton onClick={handleOnClick}>
           <ListItemIcon>
@@ -22,7 +22,7 @@ function RoomItem({ text }) {
           <ListItemText primary={text} />
         </ListItemButton>
       </ListItem>
-    </li>
+    </div>
   );
 }
 export default RoomItem;
