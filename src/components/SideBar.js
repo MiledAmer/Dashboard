@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   styled,
-  useTheme,
   ThemeProvider,
   createTheme,
 } from "@mui/material/styles";
@@ -18,14 +17,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import DashboardBody from "./DashboardBody";
-import RoomItem from "./RoomItem";
+
 import Avatar from "./Avatar";
 import ExitButton from "./ExitButton";
 import RoomList from "./RoomList";
-import SignUpButton from "./SignUpButton";
-import { useQueryClient } from "@tanstack/react-query";
-import { uid } from "../Pages/SignIn";
 import AdminSpecifics from "./AdminSpecifics";
 import { createContext } from "react";
 import { useState } from "react";

@@ -14,9 +14,9 @@ function AdminSpecifics() {
     if (isLoading) return 'Loading...'
   
     if (error) return null  
-    const buttons = data[uid] === "IsAdmin"? <SignUpButton/>:null
+    
     return (
-        buttons
+        data[uid] === "IsAdmin"? <SignUpButton/>:null
     )
 }
 
