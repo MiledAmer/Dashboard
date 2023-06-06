@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "./../config/firebase";
 import SignUpButton from "./SignUpButton";
+import { useLocation } from "react-router";
  
 function AdminSpecifics() {
-    const uid ="null;";
+    const location = useLocation();
+    const uid = location.state.uid;
     const { isLoading, error, data } = useQuery({
                 queryKey:['AdminSpecifics'], 
                 queryFn:() =>fetchData("/Users/")
@@ -11,14 +13,10 @@ function AdminSpecifics() {
     
     if (isLoading) return 'Loading...'
   
-    if (error) return 'An error has occurred: ' + error.message
-  
+    if (error) return null  
+    const buttons = data[uid] === "IsAdmin"? <SignUpButton/>:null
     return (
-      <ul>
-            {
-                data[uid] === "IsAdmin"? <SignUpButton/>:null
-            }
-      </ul>
+        buttons
     )
 }
 
