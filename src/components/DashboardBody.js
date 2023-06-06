@@ -3,12 +3,16 @@ import { dataFormatter, chartdata } from "./../data/Areachart";
 import { fetchData } from "./../config/firebase";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress, Typography } from "@mui/material";
+import { useContext } from "react";
+import { DataContext } from "./SideBar";
 
 
 function DashboardBody() {
+  const { dataLink } = useContext(DataContext)
+
   const { isLoading, error, data } = useQuery({
     queryKey: ["DisplayData"], 
-    queryFn: () => fetchData("/Rooms/Room01/")});
+    queryFn: () => fetchData(dataLink)});
 
   if (isLoading) return <CircularProgress />;
 

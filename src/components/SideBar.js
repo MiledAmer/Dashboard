@@ -27,6 +27,8 @@ import SignUpButton from "./SignUpButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { uid } from "../Pages/SignIn";
 import AdminSpecifics from "./AdminSpecifics";
+import { createContext } from "react";
+import { useState } from "react";
 
 const drawerWidth = 240;
 
@@ -75,7 +77,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+export const DataContext = createContext("/Rooms/Room01/");
+
 export default function SideBar({ children }) {
+  const [dataLink, setDataLink] = useState("/Rooms/Room01/");
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -98,65 +104,74 @@ export default function SideBar({ children }) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar position="fixed" open={open}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{ mr: 2, ...(open && { display: "none" }) }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Dashboard
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
+    <DataContext.Provider
+      value={{
+        updateLink: (newLink) => setDataLink(newLink),
+        dataLink,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar position="fixed" open={open}>
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{ mr: 2, ...(open && { display: "none" }) }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap component="div">
+                Dashboard
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            sx={{
               width: drawerWidth,
-              boxSizing: "border-box",
-              backgroundColor: theme.palette.primary.main, // Set primary color for the sidebar
-              color: theme.palette.getContrastText(theme.palette.primary.main), // Set text color based on primary color
-            },
-          }}
-          variant="persistent"
-          anchor="left"
-          open={open}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <Avatar />
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+                backgroundColor: theme.palette.primary.main, // Set primary color for the sidebar
+                color: theme.palette.getContrastText(
+                  theme.palette.primary.main
+                ), // Set text color based on primary color
+              },
+            }}
+            variant="persistent"
+            anchor="left"
+            open={open}
+          >
+            <DrawerHeader>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "ltr" ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </DrawerHeader>
+            <Divider />
+            <Avatar />
 
-          <List>
-            <RoomList />
-          </List>
-          <Divider />
-          <AdminSpecifics/>
-          <Divider/>
-          <ExitButton />
-        </Drawer>
-        <Main open={open}>
-          <DrawerHeader />
-          {children}
-        </Main>
-      </Box>
-    </ThemeProvider>
+            <List>
+              <RoomList />
+            </List>
+            <Divider />
+            <AdminSpecifics />
+            <Divider />
+            <ExitButton />
+          </Drawer>
+          <Main open={open}>
+            <DrawerHeader />
+            {children}
+          </Main>
+        </Box>
+      </ThemeProvider>
+    </DataContext.Provider>
   );
 }
