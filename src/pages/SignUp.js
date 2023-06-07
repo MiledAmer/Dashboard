@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, push, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "../config/firebase";
-import { CreateAccount } from "../config/firebase";
+import { createAccount } from "../config/firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
@@ -35,17 +35,10 @@ function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    CreateAccount(email, password);
-    CreateAccount(email, password);
-    console.log(firebase.auth().currentUser.uid)
+    createAccount(email, password, firstName, lastName, "IsAdmin");
     // Send user data to Firebase
     const db = getDatabase();
-    // set(ref(db, "Users/"), {
-    //   firstName: firstName,
-    //   lastName: lastName,
-    //   email: email,
-    //   passwrd: password,
-    // });
+    
   };
 
   return (

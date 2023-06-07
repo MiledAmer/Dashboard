@@ -1,9 +1,15 @@
-
 import { initializeApp } from "firebase/app";
-import { ref, getDatabase, get, child, push, update, set } from "firebase/database";
+import {
+  ref,
+  getDatabase,
+  get,
+  child,
+  set,
+} from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useQuery } from "@tanstack/react-query";
 
- const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCZ5fKvtsUAPeMvYa4qCa5jx6uRRrDAdaI",
   authDomain: "pfe-ys.firebaseapp.com",
   databaseURL: "https://pfe-ys-default-rtdb.europe-west1.firebasedatabase.app",
@@ -11,7 +17,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
   storageBucket: "pfe-ys.appspot.com",
   messagingSenderId: "846688245132",
   appId: "1:846688245132:web:b8282522c04b386629b2a9",
-  measurementId: "G-QK128GZG9R"
+  measurementId: "G-QK128GZG9R",
 };
 export default firebaseConfig;
 
@@ -20,34 +26,53 @@ export const auth = getAuth(app);
 
 export function fetchData(path) {
   const dbRef = ref(getDatabase());
-  return (get(child(dbRef, path))
+  return get(child(dbRef, path))
     .then((snapshot) => {
       if (snapshot.exists()) {
         return snapshot.val();
       } else {
-        console.log("No data available");
+        return null
       }
     })
     .catch((error) => {
       console.error(error);
-    }));
+    });
 }
 
 
-export function CreateAccount(email, password) {
-  const auth = getAuth();
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+export function createAccount(email, password, firstName, lastName, role) {
+  const formatedEmail = email.replace(/\./g, "").replace("@", "");
+  const db = getDatabase();
+  return fetchData(`Users/${formatedEmail}`).then((data) => {
+    if (data === null) {
+      return createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          const userData = {
+            FirstName: firstName,
+            LastName: lastName,
+            Role: role,
+            email: email,
+          };
+          return set(ref(db, `Users/${formatedEmail}`), userData)
+            .then(() => {
+              console.log("User account created successfully");
+              return user;
+            })
+            .catch((error) => {
+              console.error("Error writing user data:", error);
+              throw error;
+            });
+        })
+        .catch((error) => {
+          console.error("Error creating user account:", error);
+          throw error;
+        });
+    } else {
+      console.log("Existing email");
+      return null;
+    }
+  });
 }
 
 // export function  writeNewPost(FirstName,LastName,Email,Role) {
@@ -68,13 +93,3 @@ export function CreateAccount(email, password) {
 // }
 
 
-export function writeUserData(uid,FirstName,LastName,Email,Role) {
-  const db = getDatabase();
-  set(ref(db, 'Users/' + uid), {
-    FirstName:FirstName,
-    LastName:LastName,
-    Email:Email,
-    Role:Role,
-  });
-}
-    

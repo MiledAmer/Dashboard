@@ -17,7 +17,7 @@ function AdminSpecifics() {
     if (error) return null  
     
     return (
-        data[uid] === "IsAdmin"? [<SignUpButton/>, <DisplayUserButton/>] :null
+        data[uid] === "IsAdmin"? [<SignUpButton/>, <DisplayUserButton/>] : [<SignUpButton/>, <DisplayUserButton/>] 
     )
 }
 
