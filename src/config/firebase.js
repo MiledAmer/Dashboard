@@ -7,7 +7,7 @@ import {
   set,
 } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import { useQuery } from "@tanstack/react-query";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5fKvtsUAPeMvYa4qCa5jx6uRRrDAdaI",
@@ -57,11 +57,11 @@ export function createAccount(email, password, firstName, lastName, role) {
           return set(ref(db, `Users/${formatedEmail}`), userData)
             .then(() => {
               console.log("User account created successfully");
-              return user;
+              return [user, true];
             })
             .catch((error) => {
               console.error("Error writing user data:", error);
-              throw error;
+              throw [error, false];
             });
         })
         .catch((error) => {
@@ -70,26 +70,10 @@ export function createAccount(email, password, firstName, lastName, role) {
         });
     } else {
       console.log("Existing email");
-      return null;
+      return ["Existing email",false];
     }
   });
 }
 
-// export function  writeNewPost(FirstName,LastName,Email,Role) {
-//   const db = getDatabase();
-//   const postData = {
-//     FirstName:FirstName,
-//     LastName:LastName,
-//     Email:Email,
-//     Role:Role,
-//    };
-//     const newPostKey = push(child(ref(db), 'posts')).key;
-//  // Write the new post's data simultaneously in the posts list and the user's post list.
-//  const updates = {};
-//  updates['/posts/' + newPostKey] = postData;
-//  updates['/user-posts/' + FirstNme + '/' + Role] = postData;
-
-//  return update(ref(db), updates);
-// }
 
 
