@@ -1,12 +1,8 @@
-
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -14,15 +10,23 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { getDatabase, ref, push, set } from "firebase/database";
+import { getDatabase } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "../config/firebase";
 import { createAccount } from "../config/firebase";
-import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 initializeApp(firebaseConfig);
-const database = getDatabase();
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function SignUp() {
   const Navigate = useNavigate();
@@ -31,14 +35,26 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
+  const [role, setRole] = useState("IsNotAdmin");
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return true;
+    }
+
+    setOpen(false);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    createAccount(email, password, firstName, lastName, "IsAdmin");
-    // Send user data to Firebase
-    const db = getDatabase();
-    
+    setIsSignUpSuccess(
+      createAccount(email, password, firstName, lastName, role)
+    );
   };
 
   return (
@@ -60,9 +76,21 @@ function SignUp() {
             Sign up
           </Typography>
           {isSignUpSuccess ? (
-            <Typography variant="subtitle1" color="success" align="center">
-              Signed up successfully!
-            </Typography>
+            <Stack spacing={2} sx={{ width: "100%" }}>
+              <Snackbar
+                open= {true}
+                autoHideDuration={6000}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
+                  This is a success message!
+                </Alert>
+              </Snackbar>
+            </Stack>
           ) : null}
           <Box
             component="form"
@@ -120,6 +148,19 @@ function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl required fullWidth>
+                  <Select
+                    labelId="role-label"
+                    id="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <MenuItem value="IsAdmin">Admin</MenuItem>
+                    <MenuItem value="IsNotAdmin">Not Admin</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
             <Button

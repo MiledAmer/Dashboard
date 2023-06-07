@@ -7,7 +7,7 @@ import {
   set,
 } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useQuery } from "@tanstack/react-query";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5fKvtsUAPeMvYa4qCa5jx6uRRrDAdaI",

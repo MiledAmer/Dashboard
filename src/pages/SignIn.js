@@ -44,7 +44,7 @@ function SignIn() {
         // Sign in successful
         console.log("User signed in:", userCredential.user);
         // Redirect to the dashboard page
-        Navigate("/dashboard", {state:{uid: firebase.auth().currentUser.uid}});
+        Navigate("/dashboard", {state:{email:email.replace(/\./g, "").replace("@", "")}});
       })
       .catch((error) => {
         // Sign in failed
