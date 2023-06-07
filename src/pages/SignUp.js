@@ -18,6 +18,8 @@ import { getDatabase, ref, push, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "../config/firebase";
 import { CreateAccount } from "../config/firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 initializeApp(firebaseConfig);
 const database = getDatabase();
@@ -34,6 +36,8 @@ function SignUp() {
     event.preventDefault();
 
     CreateAccount(email, password);
+    CreateAccount(email, password);
+    console.log(firebase.auth().currentUser.uid)
     // Send user data to Firebase
     const db = getDatabase();
     // set(ref(db, "Users/"), {

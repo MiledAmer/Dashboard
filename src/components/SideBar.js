@@ -160,7 +160,6 @@ export default function SideBar({ children }) {
             <AdminSpecifics />
             <Divider />
             <ExitButton />
-            <DisplayUserButton />
           </Drawer>
           <Main open={open}>
             <DrawerHeader />

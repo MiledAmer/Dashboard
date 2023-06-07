@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "./../config/firebase";
 import SignUpButton from "./SignUpButton";
 import { useLocation } from "react-router";
+import DisplayUserButton from "./DisplayUserButton";
  
 function AdminSpecifics() {
     const location = useLocation();
@@ -16,7 +17,7 @@ function AdminSpecifics() {
     if (error) return null  
     
     return (
-        data[uid] === "IsAdmin"? <SignUpButton/>:null
+        data[uid] === "IsAdmin"? [<SignUpButton/>, <DisplayUserButton/>] :null
     )
 }
 
