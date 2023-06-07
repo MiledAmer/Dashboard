@@ -57,6 +57,7 @@ export function createAccount(email, password, firstName, lastName, role) {
           return set(ref(db, `Users/${formatedEmail}`), userData)
             .then(() => {
               console.log("User account created successfully");
+              console.log(user);
               return [user, true];
             })
             .catch((error) => {

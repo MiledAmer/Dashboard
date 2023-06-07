@@ -38,21 +38,24 @@ function SignUp() {
   const [role, setRole] = useState("IsNotAdmin");
   const [open, setOpen] = useState(false);
 
-  
+  const handleClick = () => {
+    setOpen(true);
+  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
-      return true;
+      setOpen(false);
     }
 
-    setOpen(false);
+    return;
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsSignUpSuccess(
-      createAccount(email, password, firstName, lastName, role)[1]
-    );
+    
+    const x = createAccount(email, password, firstName, lastName, role)
+    setIsSignUpSuccess(x)
+
   };
 
   return (
