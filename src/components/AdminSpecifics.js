@@ -6,10 +6,10 @@ import DisplayUserButton from "./DisplayUserButton";
  
 function AdminSpecifics() {
     const location = useLocation();
-    const Email = location.state.email;
+    const uid = location.state.uid;
     const { isLoading, error, data } = useQuery({
                 queryKey:['AdminSpecifics'], 
-                queryFn:() =>fetchData("/Users/")
+                queryFn:() =>fetchData('Users/')
             })
     
     if (isLoading) return 'Loading...'
@@ -17,7 +17,7 @@ function AdminSpecifics() {
     if (error) return null  
     
     return (
-        data[Email].Role === "IsAdmin"? [<SignUpButton/>, <DisplayUserButton/>] : null 
+        data[uid].Role === "IsAdmin"? [<SignUpButton/>, <DisplayUserButton/>] : null 
     )
 }
 
