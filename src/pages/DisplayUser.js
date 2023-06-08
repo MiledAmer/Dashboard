@@ -32,38 +32,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(FullName, Email, Role, Actions) {
-  return { FullName, Email,Role, Actions };
-}
 
-function dataRow (data)
-{
-  return (Object.values(data).map((user)=>{
-    createData(user.FirstName+" "+user.LastName, user.email, user.Role,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ])
-  }));
-//   const rows = [
-//   createData("Souhir beji ", 159, 6.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
-//   createData("yassmine Hassouna ", 237, 9.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
-//   createData("med ameur miled", 262, 16.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
-//   createData("feriel ben mammia", 305, 3.7, [<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
-//   createData("rima guedria", 356, 16.0, [<Button variant="contained">update</Button>,<Button variant="contained"color="error">Delete</Button> ]),
-// ];
-}
 
+  //   const rows = [
+  //   createData("Souhir beji ", 159, 6.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  //   createData("yassmine Hassouna ", 237, 9.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  //   createData("med ameur miled", 262, 16.0,[<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  //   createData("feriel ben mammia", 305, 3.7, [<Button variant="contained">update</Button>,<Button variant="contained" color="error">Delete</Button> ]),
+  //   createData("rima guedria", 356, 16.0, [<Button variant="contained">update</Button>,<Button variant="contained"color="error">Delete</Button> ]),
+  // ];
 
 
 export default function CustomizedTables() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["display users data"],
-    queryFn: fetchData("/Users"),
+    queryFn: () => fetchData("Users/"),
+  });
+
+  if (isLoading) return <CircularProgress />;
+
+  if (error) return "An error has occurred: " + error.message;
+
+  const createData = (FullName, Email, Role, Actions) => {
+    return { FullName, Email, Role, Actions };
+  }
+
+  let rows = Object.values(data).map(user =>{
+      return (createData(
+      user.FirstName+" "+user.LastName,
+      user.email,
+      user.Role,
+      [<Button variant="contained">update</Button>,<Button variant="contained"color="error">Delete</Button> ]
+    ))
   })
+  console.log(rows);
 
-  if (isLoading) return <CircularProgress />
-
-  if (error) return 'An error has occurred: ' + error.message
-
-  const rows = dataRow(data);
-  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -73,7 +76,6 @@ export default function CustomizedTables() {
             <StyledTableCell align="right">Email</StyledTableCell>
             <StyledTableCell align="right">Role</StyledTableCell>
             <StyledTableCell align="center">Actions</StyledTableCell>
-
           </TableRow>
         </TableHead>
         <TableBody>

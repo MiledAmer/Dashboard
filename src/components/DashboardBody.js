@@ -12,7 +12,8 @@ function DashboardBody() {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["DisplayData"], 
-    queryFn: () => fetchData(dataLink)});
+    queryFn: () => fetchData(dataLink),
+  });
 
   if (isLoading) return <CircularProgress />;
 
