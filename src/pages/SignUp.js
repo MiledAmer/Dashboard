@@ -53,8 +53,9 @@ function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    const x = createAccount(email, password, firstName, lastName, role)
-    setIsSignUpSuccess(x)
+    const x = createAccount(email, password, firstName, lastName, role);
+    setIsSignUpSuccess(x);
+    handleClick();
 
   };
 
@@ -79,7 +80,7 @@ function SignUp() {
           {isSignUpSuccess ? (
             <Stack spacing={2} sx={{ width: "100%" }}>
               <Snackbar
-                open= {true}
+                open= {open}
                 autoHideDuration={6000}
                 onClose={handleClose}
               >
