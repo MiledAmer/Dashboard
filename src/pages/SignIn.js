@@ -2,7 +2,7 @@ import Avatar from "../components/Avatar";
 import React, { useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import firebaseConfig from "../config/firebase";
+import firebaseConfig, { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
@@ -44,7 +44,7 @@ function SignIn() {
         // Sign in successful
         console.log("User signed in:", userCredential.user);
         // Redirect to the dashboard page
-        Navigate("/dashboard", {state:{email:email.replace(/\./g, "").replace("@", "")}});
+        Navigate("/dashboard", {state:{uid :userCredential.user.uid}});
       })
       .catch((error) => {
         // Sign in failed
