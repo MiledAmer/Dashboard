@@ -40,11 +40,17 @@ export function fetchData(path) {
 }
 
 
+function existingEmail(data, email) {
+  return Object.values(data).some((user) => {
+    return user.email === email;
+  });
+}
+
+
 export function createAccount(email, password, firstName, lastName, role) {
-  const formatedEmail = email.replace(/\./g, "").replace("@", "");
   const db = getDatabase();
-  return fetchData(`Users/${formatedEmail}`).then((data) => {
-    if (data === null) {
+  return fetchData(`Users/`).then((data) => {
+    if (existingEmail(data, email) === false) {
       return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
@@ -54,7 +60,7 @@ export function createAccount(email, password, firstName, lastName, role) {
             Role: role,
             email: email,
           };
-          return set(ref(db, `Users/${formatedEmail}`), userData)
+          return set(ref(db, `Users/${user.uid}`), userData)
             .then(() => {
               console.log("User account created successfully");
               console.log(user);
